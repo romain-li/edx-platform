@@ -194,7 +194,6 @@
         }
 
         .u-field-username {
-            margin-bottom: ($baseline/2);
 
             input[type="text"] {
               font-weight: 600;
@@ -246,41 +245,37 @@
 
         .u-field-textarea {
             margin-bottom: ($baseline/2);
-            padding: ($baseline/4) ($baseline*.75);
+            padding: ($baseline/2) ($baseline*.75) ($baseline*.75) ($baseline*.75);
+            cursor: pointer;
         }
 
         .u-field-title {
             @extend %t-title5;
             @extend %t-weight4;
             display: inline-block;
-            margin-top: ($baseline/4);
+            margin-top: 0;
             margin-bottom: ($baseline/4);
             color: inherit;
         }
 
         .u-field-value {
+            @extend %t-copy-base;
             width: 100%;
-            white-space: pre-line;
-            line-height: 1.5em;
 
             textarea {
               width: 100%;
               background-color: transparent;
+              white-space: pre-line;
             }
 
             a {
                 color: inherit;
-
-                &:hover {
-                    color: $link-hover;
-                }
             }
         }
 
         .u-field-message {
             @include float(right);
             width: auto;
-            padding-top: ($baseline/4);
         }
 
         .u-field.mode-placeholder {
