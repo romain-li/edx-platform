@@ -5,6 +5,7 @@ from django.dispatch.dispatcher import receiver
 
 from .models import CourseOverview
 from xmodule.modulestore.django import SignalHandler
+from contentstore.courseware_index import CourseAboutSearchIndexer
 
 
 @receiver(SignalHandler.course_published)
@@ -24,3 +25,5 @@ def _listen_for_course_delete(sender, course_key, **kwargs):  # pylint: disable=
     invalidates the corresponding CourseOverview cache entry if one exists.
     """
     CourseOverview.objects.filter(id=course_key).delete()
+    # Delete course entry from Course About Search_index
+    CourseAboutSearchIndexer.remove_deleted_items(course_key)
