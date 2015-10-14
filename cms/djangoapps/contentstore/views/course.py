@@ -456,6 +456,7 @@ def course_listing(request):
     courses = _remove_in_process_courses(courses, in_process_course_actions)
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
 
+    # TODO (RFL): Potential injection site for Studio entities.
     return render_to_response('index.html', {
         'courses': courses,
         'in_process_course_actions': in_process_course_actions,

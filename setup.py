@@ -48,5 +48,8 @@ setup(
             "cohort = openedx.core.djangoapps.course_groups.partition_scheme:CohortPartitionScheme",
             "verification = openedx.core.djangoapps.credit.partition_schemes:VerificationPartitionScheme",
         ],
+        "openedx.studio_entity": [
+            "programs = openedx.core.djangoapps.programs.plugins:ProgramsEntity",
+        ],
     }
 )

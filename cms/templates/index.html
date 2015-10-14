@@ -31,6 +31,8 @@
             <a href="#" class="button new-button new-library-button"><i class="icon fa fa-plus icon-inline"></i>
             ${_("New Library")}</a>
           % endif
+          <a href="#" class="button new-button new-program-button"><i class="icon fa fa-plus icon-inline"></i>
+            ${_("New Program")}</a>
         </li>
       </ul>
     </nav>
@@ -165,6 +167,9 @@
       </div>
       % endif
 
+      <div class="wrapper-create-element wrapper-create-program">
+      </div>
+
       <!-- STATE: processing courses -->
       %if allow_course_reruns and rerun_creator_status and len(in_process_course_actions) > 0:
       <div class="courses courses-processing">
@@ -275,6 +280,7 @@
       <ul id="course-index-tabs">
         <li class="courses-tab active"><a>${_("Courses")}</a></li>
         <li class="libraries-tab"><a>${_("Libraries")}</a></li>
+        <li class="programs-tab"><a>${_("Programs")}</a></li>
       </ul>
       %endif
 
@@ -484,6 +490,11 @@
         % endif
       </div>
       %endif
+
+      <div class="programs programs-tab">
+        <div class="programs-app"></div>
+        <!-- <script type="text/javascript" src="https://programs.edx.org/v1/programs.js"></script> -->
+      </div>
 
     </article>
     <aside class="content-supplementary" role="complementary">
