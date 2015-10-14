@@ -3,7 +3,5 @@ define(['hello_require/assets/js/utils'], function(Utils){
         Utils.show_message("Hello RequireJS");
     }
 
-    return {
-        init: HelloRequire
-    };
+    return HelloRequire;
 });
