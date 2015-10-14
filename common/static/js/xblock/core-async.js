@@ -55,28 +55,29 @@
 
         if (runtime) {
             var createBlockInstance = function(initFunction) {
+                var block;
                 // This create a new constructor that can then apply() the block_args
                 // to the initFn.
                 function Block() {
                     return initFunction.apply(this, block_args);
                 }
                 Block.prototype = initFunction.prototype;
-
-                deferred.resolve(new Block());
+                block = new Block();
+                block.runtime = runtime;
+                deferred.resolve(block);
             };
 
             block = (function() {
                 var init = $element.data('init'),
                     useRequire = $element.data('use-require');
                 if (useRequire === 'True') {
-                    require('xblock_resource/' + init, function(initFunction) {
+                    require([init], function(initFunction) {
                         createBlockInstance(initFunction);
                     });
                 } else {
                     createBlockInstance(window[init]);
                 }
             })();
-            block.runtime = runtime;
         } else {
             block = {};
             deferred.resolve(block);
