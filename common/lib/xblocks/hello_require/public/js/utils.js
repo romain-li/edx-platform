@@ -1,6 +1,6 @@
 define([], function() {
     'use strict';
     return {
-        show_message: alert
+        show_message: function(message) { alert(message); }
     }
 });

@@ -6,8 +6,7 @@ class HelloRequireXBlock(XBlock):
     def student_view(self, context):
         fragment = Fragment()
 
-        fragment.add_javascript_url(self.runtime.local_resource_url(self, 'public/js/main.js'))
-        fragment.initialize_js('xblock-hello-require/public/js/main.js', use_require_js=True)
+        fragment.initialize_js('xblock-hello-require/public/js/main', use_require_js=True)
 
         return fragment
 
