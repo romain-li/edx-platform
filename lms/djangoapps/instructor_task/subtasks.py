@@ -318,6 +318,7 @@ def queue_subtasks_for_query(
         total_num_subtasks,
         total_num_items,
     )
+    # Make sure this is committed to database before handing off subtasks to celery.
     with outer_atomic():
         progress = initialize_subtask_info(entry, action_name, total_num_items, subtask_id_list)
 
