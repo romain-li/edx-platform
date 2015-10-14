@@ -55,8 +55,8 @@ var edx = edx || {};
         // Fire analytics events when the "Settings" button is clicked.
         course_action_more.on("click", function (event) {
             var courseKey = $(event.target).parent().data("course-key");
-            // If the user clicked on the fa-cog icon then change the don hierarchy.
-            if(courseKey == undefined){
+            // If the user clicked on the fa-cog icon then change the dom hierarchy.
+            if(courseKey === undefined){
                 courseKey = $(event.target).parent().parent().data("course-key");
             }
             event.stopPropagation();
@@ -94,7 +94,7 @@ var edx = edx || {};
         });
 
         // Fire analytics events when the "Find Courses" button is clicked.
-        find_courses_btn.on("click", function (event) {
+        find_courses_btn.on("click", function () {
             analytics.track(
                 "edx.bi.dashboard.clicked_enter_course_link",
                 {
@@ -105,4 +105,3 @@ var edx = edx || {};
         });
     });
 })(jQuery, window.analytics);
-
