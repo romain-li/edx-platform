@@ -1,6 +1,11 @@
-define([], function() {
+(function(define) {
     'use strict';
-    return {
-        show_message: function(message) { alert(message); }
-    }
-});
+
+    define([], function () {
+        return {
+            show_message: function (message) {
+                alert(message);
+            }
+        }
+    });
+}).call(this, define || RequireJS.define);
