@@ -104,13 +104,25 @@ def patch_testcase():
     https://docs.djangoproject.com/en/1.8/topics/testing/tools/#django.test.TransactionTestCase
     """
 
-    def atomics_wrapper(wrapped_func, enable_transactions):
+    def enter_atomics_wrapper(wrapped_func):
         wrapped_func = wrapped_func.__func__
         def _w(*args, **kwargs):
-            CommitOnSuccessManager.ENABLED = enable_transactions
-            OuterAtomic.ALLOW_NESTED = not enable_transactions
+            CommitOnSuccessManager.ENABLED = False
+            OuterAtomic.ALLOW_NESTED = True
+            if not hasattr(OuterAtomic, 'atomic_for_testcase_calls'):
+                OuterAtomic.atomic_for_testcase_calls = 0
+            OuterAtomic.atomic_for_testcase_calls += 1
             return wrapped_func(*args, **kwargs)
         return classmethod(_w)
 
-    TestCase._enter_atomics = atomics_wrapper(TestCase._enter_atomics, False)
-    TestCase._rollback_atomics = atomics_wrapper(TestCase._rollback_atomics, True)
+    def rollback_atomics_wrapper(wrapped_func):
+        wrapped_func = wrapped_func.__func__
+        def _w(*args, **kwargs):
+            CommitOnSuccessManager.ENABLED = True
+            OuterAtomic.ALLOW_NESTED = False
+            OuterAtomic.atomic_for_testcase_calls -= 1
+            return wrapped_func(*args, **kwargs)
+        return classmethod(_w)
+
+    TestCase._enter_atomics = enter_atomics_wrapper(TestCase._enter_atomics)
+    TestCase._rollback_atomics = rollback_atomics_wrapper(TestCase._rollback_atomics)

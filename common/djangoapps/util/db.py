@@ -154,6 +154,12 @@ class OuterAtomic(transaction.Atomic):
 
         connection = transaction.get_connection(self.using)
 
+        # TestCase setup nests tests in two atomics. But there shouldn't be any other.
+        # The outermost atomic starts a transaction and so does not have a savepoint, therefore the "- 1".
+        if self.ALLOW_NESTED and (len(connection.savepoint_ids) - (self.atomic_for_testcase_calls - 1)) > 0:
+            raise transaction.TransactionManagementError('Cannot be inside an atomic block.')
+
+        # Otherwise, this shouldn't be nested in any atomic block.
         if not self.ALLOW_NESTED and connection.in_atomic_block:
             raise transaction.TransactionManagementError('Cannot be inside an atomic block.')
 
