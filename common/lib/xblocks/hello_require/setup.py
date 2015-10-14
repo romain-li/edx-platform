@@ -26,7 +26,6 @@ setup(
     name='xblock-hello-require',
     version='0.1',
     description='Hello Require XBlock',
-    packages=['hello_require'],
     install_requires=[
         'XBlock',
     ],

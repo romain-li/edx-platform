@@ -10,4 +10,4 @@
 -e common/lib/xmodule
 
 # XBlocks
--e common/lib/xblock/hello_require
+-e common/lib/xblocks/hello_require
