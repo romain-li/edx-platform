@@ -109,7 +109,9 @@ class UserAPITestCase(APITestCase):
 @unittest.skipUnless(settings.ROOT_URLCONF == 'lms.urls', 'Account APIs are only supported in LMS')
 @patch('openedx.core.djangoapps.user_api.accounts.image_helpers._PROFILE_IMAGE_SIZES', [50, 10])
 @patch.dict(
-    'openedx.core.djangoapps.user_api.accounts.image_helpers.PROFILE_IMAGE_SIZES_MAP', {'full': 50, 'small': 10}, clear=True
+    'openedx.core.djangoapps.user_api.accounts.image_helpers.PROFILE_IMAGE_SIZES_MAP',
+    {'full': 50, 'small': 10},
+    clear=True
 )
 class TestAccountAPI(UserAPITestCase):
     """
@@ -566,7 +568,10 @@ class TestAccountAPI(UserAPITestCase):
         ([u"not_a_JSON_object"], [{u'non_field_errors': [u'Invalid data. Expected a dictionary, but got unicode.']}]),
         ([{}], [{"code": [u"This field is required."]}]),
         ([{u"code": u"invalid_language_code"}], [{'code': [u'"invalid_language_code" is not a valid choice.']}]),
-        ([{u"code": u"kw"}, {u"code": u"el"}, {u"code": u"kw"}], [u'The language_proficiencies field must consist of unique languages']),
+        (
+            [{u"code": u"kw"}, {u"code": u"el"}, {u"code": u"kw"}],
+            [u'The language_proficiencies field must consist of unique languages']
+        ),
     )
     @ddt.unpack
     def test_patch_invalid_language_proficiencies(self, patch_value, expected_error_message):
@@ -578,7 +583,10 @@ class TestAccountAPI(UserAPITestCase):
         response = self.send_patch(client, {"language_proficiencies": patch_value}, expected_status=400)
         self.assertEqual(
             response.data["field_errors"]["language_proficiencies"]["developer_message"],
-            u"Value '{patch_value}' is not valid for field 'language_proficiencies': {error_message}".format(patch_value=patch_value, error_message=expected_error_message)
+            u"Value '{patch_value}' is not valid for field 'language_proficiencies': {error_message}".format(
+                patch_value=patch_value,
+                error_message=expected_error_message
+            )
         )
 
     @patch('openedx.core.djangoapps.user_api.accounts.serializers.AccountUserSerializer.save')

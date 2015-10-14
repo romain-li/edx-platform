@@ -270,7 +270,7 @@ class RegistrationView(APIView):
                 # Translators: This message is shown to users who attempt to create a new
                 # account using an email address associated with an existing account.
                 "email": _(
-                    u"It looks like {email_address} belongs to an existing account. Try again with a different email address."
+                    u"It looks like {email_address} belongs to an existing account. Try again with a different email address."  # pylint: disable=line-too-long
                 ).format(email_address=email),
                 # Translators: This message is shown to users who attempt to create a new
                 # account using a username associated with an existing account.

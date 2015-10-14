@@ -223,7 +223,8 @@ class PeerGradingModuleTest(unittest.TestCase, DummyModulestore):
         self.peer_grading.graded = True
 
         # Patch for external grading service.
-        with patch('xmodule.peer_grading_module.PeerGradingModule.query_data_for_location') as mock_query_data_for_location:
+        module_name = 'xmodule.peer_grading_module.PeerGradingModule.query_data_for_location'
+        with patch(module_name) as mock_query_data_for_location:
             mock_query_data_for_location.return_value = (
                 success,
                 {"count_graded": count_graded, "count_required": count_required}
