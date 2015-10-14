@@ -591,6 +591,8 @@ class BrowseTeamsWithinTopicTest(TeamsTabBase):
     """
     Tests for browsing Teams within a Topic on the Teams page.
     """
+
+    _multiprocess_can_split_ = False
     TEAMS_PAGE_SIZE = 10
 
     def setUp(self):
