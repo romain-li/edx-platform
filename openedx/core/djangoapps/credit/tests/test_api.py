@@ -429,21 +429,19 @@ class CreditRequirementApiTests(CreditApiTestBase):
         self.assertEqual(mail.outbox[0].subject, 'Course Credit Eligibility')
 
         # Now verify them email content
-        email_payload_first = mail.outbox[0].attachments[0]._payload  # pylint: disable=protected-access
+        email_payload_first = mail.outbox[0].attachments[0].get_payload()
 
         # Test that email has two payloads [multipart (plain text and html
         # content), attached image]
         self.assertEqual(len(email_payload_first), 2)
-        # pylint: disable=protected-access
-        self.assertIn('text/plain', email_payload_first[0]._payload[0]['Content-Type'])
-        # pylint: disable=protected-access
-        self.assertIn('text/html', email_payload_first[0]._payload[1]['Content-Type'])
+        self.assertIn('text/plain', email_payload_first[0].get_payload(0)['Content-Type'])
+        self.assertIn('text/html', email_payload_first[0].get_payload(1)['Content-Type'])
         self.assertIn('image/png', email_payload_first[1]['Content-Type'])
 
         # Now check that html email content has same logo image 'Content-ID'
         # as the attached logo image 'Content-ID'
         email_image = email_payload_first[1]
-        html_content_first = email_payload_first[0]._payload[1]._payload  # pylint: disable=protected-access
+        html_content_first = email_payload_first[0].get_payload(1).get_payload(decode=True)
 
         # strip enclosing angle brackets from 'logo_image' cache 'Content-ID'
         image_id = email_image.get('Content-ID', '')[1:-1]
