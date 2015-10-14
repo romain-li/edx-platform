@@ -64,6 +64,9 @@ class CommitOnSuccessManager(object):
             else:
                 connection.set_autocommit(False)
         else:
+            if self.read_committed is True:
+                raise transaction.TransactionManagementError('Cannot change isolation level when nested.')
+
             connection.commit_on_success_block_level += 1
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -172,7 +175,7 @@ class OuterAtomic(transaction.Atomic):
         super(OuterAtomic, self).__enter__()
 
 
-def outer_atomic(using=None, read_committed=False):
+def outer_atomic(using=None, savepoint=True, read_committed=False):
     """
     A variant of Django's atomic() which cannot be nested inside another atomic.
 
@@ -187,10 +190,10 @@ def outer_atomic(using=None, read_committed=False):
         TransactionManagementError: if already inside an atomic block.
     """
     if callable(using):
-        return OuterAtomic(DEFAULT_DB_ALIAS, read_committed)(using)
+        return OuterAtomic(DEFAULT_DB_ALIAS, savepoint, read_committed)(using)
     # Decorator: @outer_atomic(...) or context manager: with outer_atomic(...): ...
     else:
-        return OuterAtomic(using, read_committed)
+        return OuterAtomic(using, savepoint, read_committed)
 
 
 def generate_int_id(minimum=0, maximum=MYSQL_MAX_INT, used_ids=None):
