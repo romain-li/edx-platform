@@ -52,7 +52,11 @@
   }
 
   .certificate-info-section{
-    overflow: auto;
+      overflow: auto;
+
+    .course-title-section, .course-number-section{
+      min-width: 50%;
+    }
   }
 }
 
