@@ -13,7 +13,7 @@ class DateTimeJSONEncoder(json.JSONEncoder):
         """
         Serialize datetime and date objects of iso format.
 
-        datatime objects are converted to UTC.
+        datetime objects are converted to UTC.
         """
 
         if isinstance(obj, datetime):
